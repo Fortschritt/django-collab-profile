@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load collab_tags i18n staticfiles %}
+
+{% block body_class %}{{ body_class }}{% endblock %}
+
+{% block content %}
+
+<div class="m-t">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-6 col-xl-offset-3">
+      <div class="panel panel-default panel-profile">
+        <div class="panel-heading"></div>
+        <div class="panel-body text-center">
+			<div class="panel-profile-img" style="background: url({% static object.avatar %});"></div>
+          <h5 class="panel-title">
+			{{ object.user|full_nice_name }}
+		  </h5>
+			{% if object.user != user %}
+			<a class="btn btn-sm btn-default-outline" href="{% url 'collab_messages:message_user_create' object.user.pk %}">
+				<span class="icon icon-new-message"></span>
+				{% with object.user|nice_name as u %}
+					{% blocktrans %}Write a message to {{ u }}{% endblocktrans %}
+				{% endwith %}
+			</a>
+			{% endif %}
+		  {% if object.user = user or user|is_manager %}
+		  <div class="m-b">
+          <a class="m-r" href="{% url 'collab_profile:edit' object.user.pk %}">
+            <span class="icon icon-edit"></span> {% trans "Edit Profile" %}
+          </a>
+		  <a class="m-r" href="{% url 'collab_profile:edit_password' object.user.pk %}">
+			<span class="icon icon-key"></span> {% trans "Change Password" %}
+		  </a>
+		  <a class="" href="{% url 'notification_notice_settings' %}">
+            <span class="icon icon-bell"></span> {% trans "Manage Notifications" %}
+          </a>
+		  </div>
+		  {% endif %}
+		  {% if user|is_manager %}
+		  <div class="text-center m-b-md">
+			<a class="m-l" href="{% url 'collab_profile:promote_to_manager' object.user.pk %}">
+            <span class="icon icon-medal"></span> {% trans "Promote to manager" %}
+          </a>
+		  </div>
+		  {% endif %}
+		  {% if object.organization %}
+			<p class="m-b-md">
+			  {{ object.organization }}
+			</p>
+		  {% endif %}
+		  {% if object.link %}
+			<p class="m-b-md">
+			  <a href="{{ object.link }}">{{ object.link }}</a>
+            </p>
+		  {% endif %}
+		
+        </div>
+		{% if parsed_description %}
+		<div class="panel-body">
+	      <p class="m-b-md">{{ parsed_description|safe }}
+		  </p>
+        </div>
+		{% endif %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

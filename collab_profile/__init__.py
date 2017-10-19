@@ -1,0 +1,1 @@
+default_app_config = 'collab_profile.apps.CollabProfileConfig'
