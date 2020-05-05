@@ -10,7 +10,7 @@ def file_upload_path(instance, filename):
     return 'collab_profile/%s/%s' % (time_string, filename)
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     picture = models.FileField(upload_to=file_upload_path, storage=PrivateMediaStorage(), null=True, blank=True)
     organization = models.CharField(max_length=256, blank=True, default='')
     link = models.CharField(max_length=256, blank=True, default='')
