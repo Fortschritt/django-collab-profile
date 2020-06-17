@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, UpdateView
 from django.views.generic.base import TemplateResponseMixin
@@ -22,7 +22,7 @@ class GetOrCreateProfileMixin(TemplateResponseMixin):
                 pk = int(pk)
             except ValueError:
                 pk = None
-        if pk == None and request.user.is_authenticated():
+        if pk == None and request.user.is_authenticated:
             return redirect(reverse('collab_profile:detail', 
                     kwargs={'user_pk':request.user.pk})
             )
@@ -46,7 +46,7 @@ class Detail(GetOrCreateProfileMixin, DetailView):
     pk_url_kwarg = "user_pk"
 
     def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             raise PermissionDenied
         context = self.get_context_data(
             object=self.object, 

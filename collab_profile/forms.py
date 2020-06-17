@@ -7,7 +7,7 @@ from .models import Profile
 
 class PictureWidget(forms.widgets.FileInput):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if value and hasattr(value, 'url'):
             id = ''.join([attrs['id'], '_current'])
             current = '<div style="background:url(%s);" id="%s"></div><br>' % (value.url, id)
@@ -43,7 +43,7 @@ class ProfileForm(forms.ModelForm):
     def clean_link(self):
         link = self.cleaned_data['link']
         if link and not link.lower().startswith('http'):
-            link = ''.join(['http://',link])
+            link = ''.join(['https://',link])
         return link
 
     def __init__(self, *args, **kwargs):

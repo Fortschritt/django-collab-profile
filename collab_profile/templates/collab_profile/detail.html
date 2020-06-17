@@ -12,7 +12,7 @@
       <div class="panel panel-default panel-profile">
         <div class="panel-heading"></div>
         <div class="panel-body text-center">
-			<div class="panel-profile-img" style="background: url({% static object.avatar %});"></div>
+			<div class="panel-profile-img" style="background: url({{ object.avatar }});"></div>
           <h5 class="panel-title">
 			{{ object.user|full_nice_name }}
 		  </h5>
@@ -24,7 +24,7 @@
 				{% endwith %}
 			</a>
 			{% endif %}
-		  {% if object.user = user or user|is_manager %}
+		  {% if object.user == user or user|is_manager %}
 		  <div class="m-b">
           <a class="m-r" href="{% url 'collab_profile:edit' object.user.pk %}">
             <span class="icon icon-edit"></span> {% trans "Edit Profile" %}
@@ -32,7 +32,7 @@
 		  <a class="m-r" href="{% url 'collab_profile:edit_password' object.user.pk %}">
 			<span class="icon icon-key"></span> {% trans "Change Password" %}
 		  </a>
-		  <a class="" href="{% url 'notification_notice_settings' %}">
+		  <a class="" href="{% url 'pinax_notifications:notice_settings' %}">
             <span class="icon icon-bell"></span> {% trans "Manage Notifications" %}
           </a>
 		  </div>
